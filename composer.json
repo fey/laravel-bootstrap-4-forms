@@ -20,7 +20,12 @@
     ],
     "version": "3.0.4",
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "*",
+        "phpunit/phpunit": "^8.5.3"
+    },
     "autoload": {
         "psr-4": {
             "NetoJose\\Bootstrap4Forms\\": "src/"
