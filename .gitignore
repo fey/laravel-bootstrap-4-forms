@@ -2,3 +2,5 @@
 roadmap.md
 
 /.idea
+vendor/
+build/
