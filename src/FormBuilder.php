@@ -7,7 +7,7 @@ use Illuminate\Support\ViewErrorBag;
 class FormBuilder
 {
 
-    private $_attrs = [];
+    private $attrs = [];
 
     public function set($key, $value)
     {
@@ -28,6 +28,7 @@ class FormBuilder
         if (is_object($value) && method_exists($value, 'toArray')) {
             return $value->toArray();
         }
+
         return $value;
     }
 
@@ -46,6 +47,7 @@ class FormBuilder
             }
             $options[$key] = $item;
         }
+
         return $options;
     }
 
@@ -55,6 +57,7 @@ class FormBuilder
         $methodName = 'render' . ucfirst($render);
         $output = $this->$methodName();
         $this->resetAttributes();
+
         return $output;
     }
 
@@ -74,7 +77,7 @@ class FormBuilder
             'enctype' => $enctype,
             'autocomplete' => $autocomplete,
             'class' => $formInline ? 'form-inline' : null,
-            'id' => $id
+            'id' => $id,
         ]);
 
         $output = '<form ' . $attrs . '>';
@@ -92,6 +95,7 @@ class FormBuilder
     private function renderFormClose(): string
     {
         $this->resetAttributes(true);
+
         return '</form>';
     }
 
@@ -128,6 +132,7 @@ class FormBuilder
         foreach ($errors as $error) {
             $output .= '<li>' . $error . '</li>';
         }
+
         return $output . '</ul></div>';
     }
 
@@ -135,6 +140,7 @@ class FormBuilder
     {
         $attributes = $this->getInputAttributes();
         $attrs = $this->buildHtmlAttrs($attributes);
+
         return $this->wrapperInput('<input ' . $attrs . '>');
     }
 
@@ -152,6 +158,7 @@ class FormBuilder
 
         $attributes = $this->getInputAttributes();
         $attrs = $this->buildHtmlAttrs($attributes);
+
         return $this->wrapperInput('<select ' . $attrs . '>' . $optionsList . '</select>');
     }
 
@@ -161,6 +168,7 @@ class FormBuilder
         $value = $attributes['value'];
         unset($attributes['value']);
         $attrs = $this->buildHtmlAttrs($attributes);
+
         return $this->wrapperInput('<textarea ' . $attrs . '>' . htmlspecialchars($value) . '</textarea>');
     }
 
@@ -168,6 +176,7 @@ class FormBuilder
     {
         $attributes = $this->getInputAttributes();
         $attrs = $this->buildHtmlAttrs($attributes);
+
         return $this->wrapperRadioCheckbox('<input ' . $attrs . '>');
     }
 
@@ -175,6 +184,7 @@ class FormBuilder
     {
         $attributes = $this->getInputAttributes();
         $attrs = $this->buildHtmlAttrs($attributes);
+
         return $this->wrapperRadioCheckbox('<input ' . $attrs . '>');
     }
 
@@ -183,6 +193,7 @@ class FormBuilder
         extract($this->get('url', 'value'));
         $class = $this->getBtnAnchorClasses();
         $attrs = $this->buildHtmlAttrs(['href' => $url, 'class' => $class]);
+
         return '<a ' . $attrs . '>' . $value . '</a>';
     }
 
@@ -191,12 +202,14 @@ class FormBuilder
         extract($this->get('type', 'value', 'disabled'));
         $class = $this->getBtnAnchorClasses();
         $attrs = $this->buildHtmlAttrs(['type' => $type, 'class' => $class, 'disabled' => $disabled]);
+
         return '<button ' . $attrs . '>' . $value . '</button>';
     }
 
     private function getBtnAnchorClasses()
     {
         extract($this->get('size', 'color', 'outline', 'block', 'type', 'value', 'formInline'));
+
         return $this->createAttrsList(
             'btn',
             [$size, 'btn-' . $size],
@@ -209,12 +222,29 @@ class FormBuilder
     private function isRadioOrCheckbox(): bool
     {
         extract($this->get('render'));
+
         return in_array($render, ['checkbox', 'radio']);
     }
 
     private function getInputAttributes(): array
     {
-        extract($this->get('render', 'type', 'multiple', 'name', 'size', 'placeholder', 'help', 'disabled', 'readonly', 'required', 'autocomplete', 'min', 'max', 'value', 'checked', 'formData', 'disableValidation'));
+        extract($this->get('render',
+            'type',
+            'multiple',
+            'name',
+            'size',
+            'placeholder',
+            'help',
+            'disabled',
+            'readonly',
+            'required',
+            'autocomplete',
+            'min',
+            'max',
+            'value',
+            'checked',
+            'formData',
+            'disableValidation'));
 
         $isRadioOrCheckbox = $this->isRadioOrCheckbox();
         $type = $isRadioOrCheckbox ? $render : $type;
@@ -245,7 +275,7 @@ class FormBuilder
         $attributes = [
             'type' => $type,
             'name' => $name,
-            'id' => $id
+            'id' => $id,
         ];
 
         if ($render !== 'select') {
@@ -268,17 +298,18 @@ class FormBuilder
             $attributes['checked'] = $isChecked;
         }
 
-        return array_merge($attributes, [
-            'class' => $class,
-            'min' => $min,
-            'max' => $max,
-            'autocomplete' => $autocomplete,
-            'placeholder' => $this->getText($placeholder),
-            'aria-describedby' => $help ? 'help-' . $id : null,
-            'disabled' => $disabled,
-            'readonly' => $readonly,
-            'required' => $required
-        ]);
+        return array_merge($attributes,
+            [
+                'class' => $class,
+                'min' => $min,
+                'max' => $max,
+                'autocomplete' => $autocomplete,
+                'placeholder' => $this->getText($placeholder),
+                'aria-describedby' => $help ? 'help-' . $id : null,
+                'disabled' => $disabled,
+                'readonly' => $readonly,
+                'required' => $required,
+            ]);
     }
 
     private function getSelectOptions($arrValues, $options)
@@ -286,12 +317,14 @@ class FormBuilder
         $optionsList = '';
         foreach ($options as $value => $label) {
             if (is_array($label)) {
-                $optionsList .= '<optgroup label="' . $value . '">' . $this->getSelectOptions($arrValues, $label) . '</optgroup>';
-            }else{
+                $optionsList .= '<optgroup label="' . $value . '">' . $this->getSelectOptions($arrValues,
+                        $label) . '</optgroup>';
+            } else {
                 $attrs = $this->buildHtmlAttrs(['value' => $value, 'selected' => in_array($value, $arrValues)], false);
                 $optionsList .= '<option ' . $attrs . ($value ? '>' : ' disabled hidden>') . $label . '</option>';
             }
         }
+
         return $optionsList;
     }
 
@@ -308,13 +341,14 @@ class FormBuilder
             $class = join(' ', [$class, 'mx-sm-2']);
         }
 
-        $attrs          = $labelAttrs ?? [];
+        $attrs = $labelAttrs ?? [];
         $attrs['class'] = $this->createAttrsList(
             $attrs['class'] ?? null,
             $class
         );
         $attrs['for'] = $this->getId();
         $attrs = $this->buildHtmlAttrs($attrs, false);
+
         return '<label ' . $attrs . '>' . $this->getText($label) . '</label>';
     }
 
@@ -322,7 +356,8 @@ class FormBuilder
     {
         extract($this->get('append', 'prepend', 'formInline', 'wrapperGroupAttrs', 'type', 'options'));
 
-        if ((!$append && !$prepend) || !(in_array($type, ['text', 'date', 'time', 'tel', 'url']) || is_array($options))) {
+        if ((!$append && !$prepend) || !(in_array($type,
+                    ['text', 'date', 'time', 'tel', 'url']) || is_array($options))) {
             return $input;
         }
 
@@ -336,7 +371,7 @@ class FormBuilder
         $attrs = $this->buildHtmlAttrs($attrs, false);
 
         if (!$formInline) {
-           $output = '<div ' . $attrs. '>' . $output . '</div>';
+            $output = '<div ' . $attrs . '>' . $output . '</div>';
         }
 
         return $output;
@@ -344,7 +379,7 @@ class FormBuilder
 
     private function getInputGroup(string $type, $value): string
     {
-        $wrapperType = 'wrapper'. ucwords($type) . 'Attrs';
+        $wrapperType = 'wrapper' . ucwords($type) . 'Attrs';
         extract($this->get('onlyInput', $wrapperType));
 
         $attrs = $$wrapperType ?? [];
@@ -358,9 +393,9 @@ class FormBuilder
 
         if (is_array($value)) {
             foreach ($value as $text) {
-              $output .= $this->getInputGroupText($type, $text);
+                $output .= $this->getInputGroupText($type, $text);
             }
-        }else{
+        } else {
             $output .= $this->getInputGroupText($type, $value);
         }
 
@@ -373,7 +408,7 @@ class FormBuilder
 
         $attrs = ${$type . 'Attrs'} ?? [];
         $attrs['class'] = $this->createAttrsList(
-            ( ${$type . 'Style'} ? 'input-group-text' : ''),
+            (${$type . 'Style'} ? 'input-group-text' : ''),
             $attrs['class'] ?? null
         );
 
@@ -382,6 +417,7 @@ class FormBuilder
         }
 
         $attrs = $this->buildHtmlAttrs($attrs, false);
+
         return '<div ' . $attrs . '>' . $this->getText($value) . '</div>';
     }
 
@@ -391,6 +427,7 @@ class FormBuilder
         if ($formLocale) {
             return __($formLocale . '.' . $key);
         }
+
         return $key;
     }
 
@@ -399,13 +436,16 @@ class FormBuilder
         // Remove all attributes
         if ($resetAll) {
             $this->attrs = [];
+
             return;
         }
 
         // Keep attributes which key starting with 'form'
-        $this->attrs = array_filter($this->attrs, function ($key) {
-            return substr($key, 0, 4) === 'form';
-        }, ARRAY_FILTER_USE_KEY);
+        $this->attrs = array_filter($this->attrs,
+            function ($key) {
+                return substr($key, 0, 4) === 'form';
+            },
+            ARRAY_FILTER_USE_KEY);
     }
 
     private function wrapperInput(string $input): string
@@ -416,11 +456,11 @@ class FormBuilder
             return $input;
         }
 
-        $id             = $this->getId();
-        $label          = $this->renderLabel();
-        $helpText       = $help ? '<small id="help-' . $id . '" class="form-text text-muted">' . $this->getText($help) . '</small>' : '';
-        $error          = $this->getInputErrorMarkup($name);
-        $attrs          = $wrapperAttrs ?? [];
+        $id = $this->getId();
+        $label = $this->renderLabel();
+        $helpText = $help ? '<small id="help-' . $id . '" class="form-text text-muted">' . $this->getText($help) . '</small>' : '';
+        $error = $this->getInputErrorMarkup($name);
+        $attrs = $wrapperAttrs ?? [];
         $attrs['class'] = $this->createAttrsList(
             $attrs['class'] ?? null,
             $formInline ? 'input-group' : 'form-group'
@@ -448,6 +488,7 @@ class FormBuilder
         $attributes = $this->buildHtmlAttrs($attrs, false);
         $label = $this->renderLabel();
         $error = $this->getInputErrorMarkup($name);
+
         return '<div ' . $attributes . '>' . $input . $label . $error . '</div>';
     }
 
@@ -463,6 +504,7 @@ class FormBuilder
         if (!$error) {
             return '';
         }
+
         return '<div class="invalid-feedback">' . $this->errors()->first($name) . '</div>';
     }
 
@@ -479,7 +521,7 @@ class FormBuilder
 
     private function hasOldInput()
     {
-        return count((array) old()) != 0;
+        return count((array)old()) != 0;
     }
 
     private function getValue()
@@ -502,7 +544,6 @@ class FormBuilder
 
     private function buildHtmlAttrs(array $attributes, $appendAttrs = true): string
     {
-
         if ($appendAttrs) {
             extract($this->get('attrs'));
             $fieldAttrs = $attrs ?? [];
@@ -513,17 +554,20 @@ class FormBuilder
             $attributes = array_merge($fieldAttrs, $attributes);
         }
 
-        return join(' ', array_filter(
-            array_map(function ($key) use ($attributes) {
-                $value = $attributes[$key];
-                if (is_bool($value)) {
-                    return $value ? $key : '';
-                } elseif ($value !== null) {
-                    return $key . '="' . htmlspecialchars($value) . '"';
-                }
-                return '';
-            }, array_keys($attributes))
-        ));
+        return join(' ',
+            array_filter(
+                array_map(function ($key) use ($attributes) {
+                    $value = $attributes[$key];
+                    if (is_bool($value)) {
+                        return $value ? $key : '';
+                    } elseif ($value !== null) {
+                        return $key . '="' . htmlspecialchars($value) . '"';
+                    }
+
+                    return '';
+                },
+                    array_keys($attributes))
+            ));
     }
 
     private function createAttrsList(...$items)
@@ -535,6 +579,7 @@ class FormBuilder
             }
             $attrs[] = $item;
         }
+
         return join(' ', array_filter($attrs));
     }
 
@@ -545,6 +590,7 @@ class FormBuilder
         if ($formErrorBag) {
             $errors = $errors->{$formErrorBag};
         }
+
         return $errors;
     }
 
@@ -554,6 +600,7 @@ class FormBuilder
         foreach ($keys as $key) {
             $return[$key] = $this->attrs[$key] ?? null;
         }
+
         return $return;
     }
 }

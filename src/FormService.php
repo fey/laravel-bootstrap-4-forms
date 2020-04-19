@@ -15,7 +15,7 @@ class FormService
      */
     public function __construct()
     {
-        $this->_builder = new FormBuilder;
+        $this->_builder = new FormBuilder();
     }
 
     /**
@@ -30,7 +30,7 @@ class FormService
 
     /**
      * Set error bag name
-     * 
+     *
      * @param string $value
      * @return FormService
      */
@@ -188,7 +188,7 @@ class FormService
 
     /**
      * Set inline form style
-     * 
+     *
      * @param bool $inline
      * @return FormService
      */
@@ -344,7 +344,7 @@ class FormService
 
     /**
      * Set a minimum value for a field
-     * 
+     *
      * @param string $value
      * @return FormService
      */
@@ -355,7 +355,7 @@ class FormService
 
     /**
      * Set a maximum value for a field
-     * 
+     *
      * @param string $value
      * @return FormService
      */
@@ -415,7 +415,7 @@ class FormService
     /**
      * Set options for a select field
      *
-     * @param mixed  $options
+     * @param mixed $options
      * @param string $valueKey
      * @param string $idKey
      * @return FormService
@@ -442,11 +442,15 @@ class FormService
      * @param string $name
      * @param string $value
      * @param string $label
-     * @param bool   $checked
+     * @param bool $checked
      * @return FormService
      */
-    public function checkbox(string $name = null, string $label = null, string $value = 'on', bool $checked = null): FormService
-    {
+    public function checkbox(
+        string $name = null,
+        string $label = null,
+        string $value = 'on',
+        bool $checked = null
+    ): FormService {
         return $this->_radioOrCheckbox('checkbox', $name, $label, $value, $checked);
     }
 
@@ -456,11 +460,15 @@ class FormService
      * @param string $name
      * @param string $value
      * @param string $label
-     * @param bool   $checked
+     * @param bool $checked
      * @return FormService
      */
-    public function radio(string $name = null, string $label = null, string $value = null, bool $checked = null): FormService
-    {
+    public function radio(
+        string $name = null,
+        string $label = null,
+        string $value = null,
+        bool $checked = null
+    ): FormService {
         return $this->_radioOrCheckbox('radio', $name, $label, $value, $checked);
     }
 
@@ -898,7 +906,7 @@ class FormService
      * @param string $name
      * @param string $value
      * @param string $label
-     * @param mixed  $checked
+     * @param mixed $checked
      * @return FormService
      */
     private function _radioOrCheckbox($render, $name, $label, $value, $checked): FormService
@@ -906,6 +914,7 @@ class FormService
         if (is_bool($checked)) {
             $this->checked($checked);
         }
+
         return $this->_set('render', $render)->name($name)->label($label)->value($value);
     }
 
@@ -918,6 +927,7 @@ class FormService
     private function _set(string $key, $value): FormService
     {
         $this->_builder->set($key, $value);
+
         return $this;
     }
 }

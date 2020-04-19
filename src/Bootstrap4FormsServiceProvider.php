@@ -4,13 +4,14 @@ namespace NetoJose\Bootstrap4Forms;
 
 use Illuminate\Support\ServiceProvider;
 
-class Bootstrap4FormsServiceProvider extends ServiceProvider {
+class Bootstrap4FormsServiceProvider extends ServiceProvider
+{
 
     protected $defer = true;
 
     public function register()
     {
-        $this->app->singleton('bootstrap4-form', function() {
+        $this->app->singleton('bootstrap4-form', function () {
             return new FormService();
         });
     }
@@ -19,5 +20,4 @@ class Bootstrap4FormsServiceProvider extends ServiceProvider {
     {
         return ['bootstrap4-form'];
     }
-
 }
