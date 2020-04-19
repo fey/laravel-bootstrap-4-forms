@@ -228,7 +228,8 @@ class FormBuilder
 
     private function getInputAttributes(): array
     {
-        extract($this->get('render',
+        extract($this->get(
+            'render',
             'type',
             'multiple',
             'name',
@@ -244,7 +245,8 @@ class FormBuilder
             'value',
             'checked',
             'formData',
-            'disableValidation'));
+            'disableValidation'
+        ));
 
         $isRadioOrCheckbox = $this->isRadioOrCheckbox();
         $type = $isRadioOrCheckbox ? $render : $type;
@@ -298,7 +300,8 @@ class FormBuilder
             $attributes['checked'] = $isChecked;
         }
 
-        return array_merge($attributes,
+        return array_merge(
+            $attributes,
             [
                 'class' => $class,
                 'min' => $min,
@@ -309,7 +312,8 @@ class FormBuilder
                 'disabled' => $disabled,
                 'readonly' => $readonly,
                 'required' => $required,
-            ]);
+            ]
+        );
     }
 
     private function getSelectOptions($arrValues, $options)
@@ -317,8 +321,10 @@ class FormBuilder
         $optionsList = '';
         foreach ($options as $value => $label) {
             if (is_array($label)) {
-                $optionsList .= '<optgroup label="' . $value . '">' . $this->getSelectOptions($arrValues,
-                        $label) . '</optgroup>';
+                $optionsList .= '<optgroup label="' . $value . '">' . $this->getSelectOptions(
+                    $arrValues,
+                    $label
+                ) . '</optgroup>';
             } else {
                 $attrs = $this->buildHtmlAttrs(['value' => $value, 'selected' => in_array($value, $arrValues)], false);
                 $optionsList .= '<option ' . $attrs . ($value ? '>' : ' disabled hidden>') . $label . '</option>';
@@ -356,8 +362,12 @@ class FormBuilder
     {
         extract($this->get('append', 'prepend', 'formInline', 'wrapperGroupAttrs', 'type', 'options'));
 
-        if ((!$append && !$prepend) || !(in_array($type,
-                    ['text', 'date', 'time', 'tel', 'url']) || is_array($options))) {
+        if (
+            (!$append
+            && !$prepend)
+            || !(in_array($type, ['text', 'date', 'time', 'tel', 'url'])
+            || is_array($options))
+        ) {
             return $input;
         }
 
@@ -441,11 +451,13 @@ class FormBuilder
         }
 
         // Keep attributes which key starting with 'form'
-        $this->attrs = array_filter($this->attrs,
+        $this->attrs = array_filter(
+            $this->attrs,
             function ($key) {
                 return substr($key, 0, 4) === 'form';
             },
-            ARRAY_FILTER_USE_KEY);
+            ARRAY_FILTER_USE_KEY
+        );
     }
 
     private function wrapperInput(string $input): string
@@ -554,7 +566,8 @@ class FormBuilder
             $attributes = array_merge($fieldAttrs, $attributes);
         }
 
-        return join(' ',
+        return join(
+            ' ',
             array_filter(
                 array_map(function ($key) use ($attributes) {
                     $value = $attributes[$key];
@@ -567,7 +580,8 @@ class FormBuilder
                     return '';
                 },
                     array_keys($attributes))
-            ));
+            )
+        );
     }
 
     private function createAttrsList(...$items)
