@@ -1,4 +1,4 @@
-# Bootstrap 4 forms for Laravel 5/6
+# Bootstrap 4 forms for Laravel 7
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Total Downloads][ico-downloads]][link-downloads]
@@ -79,7 +79,7 @@ If you is using Laravel 5.5, the auto discovery feature will make everything for
 
 #### Opening and closing a form
 
-```php
+```blade
 // Opening a form using POST method
 
 {!!Form::open()!!}
@@ -897,7 +897,7 @@ You can use chaining feature to use a lot of settings for each component
 {!!Form::close()!!}
 ```
 
-[ico-version]: https://img.shields.io/packagist/v/netojose/laravel-bootstrap-4-forms.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/netojose/laravel-bootstrap-4-forms.svg?style=flat-square
-[link-packagist]: https://packagist.org/packages/netojose/laravel-bootstrap-4-forms
-[link-downloads]: https://packagist.org/packages/netojose/laravel-bootstrap-4-forms
+[ico-version]: https://img.shields.io/packagist/v/fey/laravel-bootstrap-4-forms.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/fey/laravel-bootstrap-4-forms.svg?style=flat-square
+[link-packagist]: https://packagist.org/packages/fey/laravel-bootstrap-4-forms
+[link-downloads]: https://packagist.org/packages/fey/laravel-bootstrap-4-forms
