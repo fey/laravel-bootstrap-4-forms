@@ -9,13 +9,14 @@ namespace NetoJose\Bootstrap4Forms;
  */
 class FormService
 {
+    private $builder;
 
     /**
      * Create a new FormSevice instance
      */
     public function __construct()
     {
-        $this->_builder = new FormBuilder();
+        $this->builder = new FormBuilder();
     }
 
     /**
@@ -25,7 +26,7 @@ class FormService
      */
     public function __toString()
     {
-        return $this->_builder->render();
+        return $this->builder->render();
     }
 
     /**
@@ -926,7 +927,7 @@ class FormService
      */
     private function set(string $key, $value): FormService
     {
-        $this->_builder->set($key, $value);
+        $this->builder->set($key, $value);
 
         return $this;
     }
