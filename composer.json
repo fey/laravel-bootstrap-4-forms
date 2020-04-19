@@ -1,5 +1,5 @@
 {
-    "name": "netojose/laravel-bootstrap-4-forms",
+    "name": "fey/laravel-bootstrap-4-forms",
     "type": "package",
     "description": "Bootstrap 4 form builder for Laravel 5",
     "keywords": [
@@ -16,9 +16,17 @@
         {
             "name": "José Sousa",
             "email": "sputinykster@gmail.com"
+        },
+        {
+            "name": "Jose Erick Carreon",
+            "email": "joserick.92@gmail.com"
+        },
+        {
+            "name": "fey",
+            "email": "feycot@gmail.com"
         }
     ],
-    "version": "3.0.4",
+    "version": "3.0.5",
     "minimum-stability": "dev",
     "require": {
     },
@@ -40,5 +48,10 @@
                 "Form": "NetoJose\\Bootstrap4Forms\\Bootstrap4FormsFacade"
             }
         }
+    },
+    "scripts": {
+        "phpunit": "phpunit",
+        "phpcs": "phpcs",
+        "phpcbf": "phpcbf"
     }
 }
